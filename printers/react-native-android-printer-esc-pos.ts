@@ -20,7 +20,7 @@ export const AndroidPrinterEscPosTcp = function (
   });;
 }
 
-export const AndroidPrinterEscPosBluetooth = function (payload: string, printerNbrCharactersPerLine: number = 38) {
+export const AndroidPrinterBluetooth = function (payload: string, printerNbrCharactersPerLine: number = 38) {
   return ThermalPrinterModule.printBluetooth({
     payload,
     printerNbrCharactersPerLine,
