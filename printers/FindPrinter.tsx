@@ -12,6 +12,7 @@ import {
 } from 'react-native-thermal-receipt-printer-image-qr';
 
 import {navigate} from './LinkPrinter';
+import Loading from './Loading';
 
 export interface DeviceType {
   host: string;
@@ -22,25 +23,23 @@ export interface DeviceType {
 
 export const FindPrinter = () => {
   const [devices, setDevices] = React.useState<DeviceType[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (devices.length === 0) {
-      setLoading(true);
       NetPrinterEventEmitter.addListener(
         RN_THERMAL_RECEIPT_PRINTER_EVENTS.EVENT_NET_PRINTER_SCANNED_SUCCESS,
         (printers: DeviceType[]) => {
           console.log({printers});
           if (printers) {
             console.log({printers});
-            setLoading(false);
             setDevices(printers);
           }
         },
       );
       (async () => {
-        const results = await NetPrinter.getDeviceList();
-        console.log({results});
+          const results = await NetPrinter.getDeviceList()
+                               .catch(err => console.log("error:", err.message));
+          console.log({results});
       })();
     }
     return () => {
@@ -52,10 +51,6 @@ export const FindPrinter = () => {
       );
     };
   }, []);
-
-  if (loading) {
-    // return <Loading loading={true} text={'Finding'} />;
-  }
 
   const onSelectedPrinter = (printer: any) => {
     navigate('Home', {printer});
@@ -83,3 +78,9 @@ const styles = StyleSheet.create({
     padding: 16,
   },
 });
+
+export default FindPrinter;
+
+function e(reason: any): PromiseLike<never> {
+  throw new Error('Function not implemented.');
+}

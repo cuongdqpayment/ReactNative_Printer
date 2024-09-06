@@ -70,13 +70,13 @@ export const HomeScreen = ({route}: any) => {
     });
 
   React.useEffect(() => {
-    if (route.params?.printer) {
+    if (route && route.params?.printer) {
       setSelectedNetPrinter({
         ...selectedNetPrinter,
         ...route.params.printer,
       });
     }
-  }, [route.params?.printer]);
+  }, [route && route.params?.printer]);
 
   const getListDevices = async () => {
     const Printer = printerList[selectedValue];
@@ -461,3 +461,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+
+
+export default HomeScreen;
